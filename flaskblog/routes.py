@@ -1,18 +1,9 @@
 
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on Sun Sep 16 16:47:10 2018
+from flask import render_template,url_for,flash,redirect
+from flaskblog import app
+from flaskblog.forms import RegistrationForm,LoginForm
+from flaskblog.models import User,Post
 
-@author: raunak
-"""
-
-from flask import Flask,render_template,url_for,flash,redirect
-from forms import RegistrationForm,LoginForm
-app = Flask(__name__)
-
-
-app.config['SECRET_KEY'] = '5bcc0f9e34c15efa9fefb136c16730ec'
 posts = [
             {
                 'author':'Raunak Sharma',
@@ -41,17 +32,17 @@ def about():
 def register():
     form = RegistrationForm()
     if form.validate_on_submit():
-        flash("Account created for {{form.username.data}}!","success")
+        flash(f'Account created for { form.username.data}!',"success")
         return redirect(url_for('home'))
     return render_template('register.html',title="Register",form=form)
 
-@app.route("/login")
+@app.route("/login",methods = ['GET','POST'])
 def login():
     form = LoginForm()
+    if form.validate_on_submit():
+        if form.email.data == 'admin@blog.com' and form.password.data == 'password':
+            flash('You have been logged In.',"success")
+            return redirect(url_for('home'))
+        else:
+            flash('Login unsuccessfull,Please check username and password',"danger")
     return render_template('login.html',title="Login",form=form)
-    
-
-
-if __name__ == "__main__":
-    app.run(debug=True)
-
