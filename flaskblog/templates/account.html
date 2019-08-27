@@ -1,4 +1,15 @@
 {% extends "layout.html" %}
 {% block content%}
-   <h1>{{current_user.username}}</h1>
+    
+    <div class="content-section">
+        <div class="media">
+            <img class="rounded-circle img-responsive" src="{{ image_file}}" style="max-height: 100px; max-width: 100px;">
+            <div class="media-body">
+                <h2 class="account-hedinng ml-4 mt-2">{{current_user.username}}</h2>
+                <p class="text-secondary ml-4">{{current_user.email}}</p>
+            </div>
+        </div>
+        <!--FROM Here the template is designed-->
+    </div>
+
 {% endblock %}
